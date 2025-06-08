@@ -1,0 +1,940 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Obesity Data Analysis Project1},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Obesity Data Analysis Project1}
+\author{}
+\date{\vspace{-2.5em}2025-03-27}
+
+\begin{document}
+\maketitle
+
+\subsection{Data Preparation and
+Cleaning}\label{data-preparation-and-cleaning}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)  }\CommentTok{\# Data manipulation}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+## v dplyr     1.1.4     v readr     2.1.5
+## v forcats   1.0.0     v stringr   1.5.1
+## v ggplot2   3.5.1     v tibble    3.2.1
+## v lubridate 1.9.4     v tidyr     1.3.1
+## v purrr     1.0.4     
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(cluster)    }\CommentTok{\# Clustering (k{-}means, PAM)}
+\FunctionTok{library}\NormalTok{(factoextra) }\CommentTok{\# Visualization for clustering}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(corrplot)   }\CommentTok{\# Correlation matrix visualization}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## corrplot 0.95 loaded
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(car)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: carData
+## 
+## Attaching package: 'car'
+## 
+## The following object is masked from 'package:dplyr':
+## 
+##     recode
+## 
+## The following object is masked from 'package:purrr':
+## 
+##     some
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(factoextra)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Loading the dataset and displaying 6 rows to check if it is
+working}\label{loading-the-dataset-and-displaying-6-rows-to-check-if-it-is-working}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{obesity\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"obesity\_data.csv"}\NormalTok{)  }
+\FunctionTok{head}\NormalTok{(obesity\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Gender Age Height Weight family_history_with_overweight FAVC FCVC NCP
+## 1 Female  21   1.62   64.0                            yes   no    2   3
+## 2 Female  21   1.52   56.0                            yes   no    3   3
+## 3   Male  23   1.80   77.0                            yes   no    2   3
+## 4   Male  27   1.80   87.0                             no   no    3   3
+## 5   Male  22   1.78   89.8                             no   no    2   1
+## 6   Male  29   1.62   53.0                             no  yes    2   3
+##        CAEC SMOKE CH2O SCC FAF TUE       CALC                MTRANS
+## 1 Sometimes    no    2  no   0   1         no Public_Transportation
+## 2 Sometimes   yes    3 yes   3   0  Sometimes Public_Transportation
+## 3 Sometimes    no    2  no   2   1 Frequently Public_Transportation
+## 4 Sometimes    no    2  no   2   0 Frequently               Walking
+## 5 Sometimes    no    2  no   0   0  Sometimes Public_Transportation
+## 6 Sometimes    no    2  no   0   0  Sometimes            Automobile
+##            NObeyesdad
+## 1       Normal_Weight
+## 2       Normal_Weight
+## 3       Normal_Weight
+## 4  Overweight_Level_I
+## 5 Overweight_Level_II
+## 6       Normal_Weight
+\end{verbatim}
+
+\subsection{Calculating the Summary Statistics of the
+dataset}\label{calculating-the-summary-statistics-of-the-dataset}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Summary statistics and checking variable types}
+\FunctionTok{summary}\NormalTok{(obesity\_data) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Gender               Age            Height          Weight      
+##  Length:2111        Min.   :14.00   Min.   :1.450   Min.   : 39.00  
+##  Class :character   1st Qu.:19.95   1st Qu.:1.630   1st Qu.: 65.47  
+##  Mode  :character   Median :22.78   Median :1.700   Median : 83.00  
+##                     Mean   :24.31   Mean   :1.702   Mean   : 86.59  
+##                     3rd Qu.:26.00   3rd Qu.:1.768   3rd Qu.:107.43  
+##                     Max.   :61.00   Max.   :1.980   Max.   :173.00  
+##  family_history_with_overweight     FAVC                FCVC      
+##  Length:2111                    Length:2111        Min.   :1.000  
+##  Class :character               Class :character   1st Qu.:2.000  
+##  Mode  :character               Mode  :character   Median :2.386  
+##                                                    Mean   :2.419  
+##                                                    3rd Qu.:3.000  
+##                                                    Max.   :3.000  
+##       NCP            CAEC              SMOKE                CH2O      
+##  Min.   :1.000   Length:2111        Length:2111        Min.   :1.000  
+##  1st Qu.:2.659   Class :character   Class :character   1st Qu.:1.585  
+##  Median :3.000   Mode  :character   Mode  :character   Median :2.000  
+##  Mean   :2.686                                         Mean   :2.008  
+##  3rd Qu.:3.000                                         3rd Qu.:2.477  
+##  Max.   :4.000                                         Max.   :3.000  
+##      SCC                 FAF              TUE             CALC          
+##  Length:2111        Min.   :0.0000   Min.   :0.0000   Length:2111       
+##  Class :character   1st Qu.:0.1245   1st Qu.:0.0000   Class :character  
+##  Mode  :character   Median :1.0000   Median :0.6253   Mode  :character  
+##                     Mean   :1.0103   Mean   :0.6579                     
+##                     3rd Qu.:1.6667   3rd Qu.:1.0000                     
+##                     Max.   :3.0000   Max.   :2.0000                     
+##     MTRANS           NObeyesdad       
+##  Length:2111        Length:2111       
+##  Class :character   Class :character  
+##  Mode  :character   Mode  :character  
+##                                       
+##                                       
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(obesity\_data)  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    2111 obs. of  17 variables:
+##  $ Gender                        : chr  "Female" "Female" "Male" "Male" ...
+##  $ Age                           : num  21 21 23 27 22 29 23 22 24 22 ...
+##  $ Height                        : num  1.62 1.52 1.8 1.8 1.78 1.62 1.5 1.64 1.78 1.72 ...
+##  $ Weight                        : num  64 56 77 87 89.8 53 55 53 64 68 ...
+##  $ family_history_with_overweight: chr  "yes" "yes" "yes" "no" ...
+##  $ FAVC                          : chr  "no" "no" "no" "no" ...
+##  $ FCVC                          : num  2 3 2 3 2 2 3 2 3 2 ...
+##  $ NCP                           : num  3 3 3 3 1 3 3 3 3 3 ...
+##  $ CAEC                          : chr  "Sometimes" "Sometimes" "Sometimes" "Sometimes" ...
+##  $ SMOKE                         : chr  "no" "yes" "no" "no" ...
+##  $ CH2O                          : num  2 3 2 2 2 2 2 2 2 2 ...
+##  $ SCC                           : chr  "no" "yes" "no" "no" ...
+##  $ FAF                           : num  0 3 2 2 0 0 1 3 1 1 ...
+##  $ TUE                           : num  1 0 1 0 0 0 0 0 1 1 ...
+##  $ CALC                          : chr  "no" "Sometimes" "Frequently" "Frequently" ...
+##  $ MTRANS                        : chr  "Public_Transportation" "Public_Transportation" "Public_Transportation" "Walking" ...
+##  $ NObeyesdad                    : chr  "Normal_Weight" "Normal_Weight" "Normal_Weight" "Overweight_Level_I" ...
+\end{verbatim}
+
+\paragraph{Observation -}\label{observation--}
+
+The dataset presents details on 2,111 individuals, who have varying
+levels of health and lifestyle characteristics. Their ages are quite
+wide ranging from 14 and 61, with a majority of the people in the early
+twenties. The heights are much shorter at 1.45m (4ft 9in) to a taller
+individual at 1.98m (6ft 6in), while weights range from a light 39kg
+(86lbs) to a rather heavier person at 173kg (382lbs). There are
+generally equal numbers of male and female individuals, as well as
+numerous interests in certains lifestyle factors (FAF), methods of
+transportation (MTRANS), and family history of weight issues. The target
+variable appears to be titled ``NObeyesdad'', which will categorize
+people's weight status ranging from normal weight to obesity in
+different ranges.
+
+\subsection{Checking if there are any missing
+values}\label{checking-if-there-are-any-missing-values}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{missing\_values }\OtherTok{\textless{}{-}} \FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(obesity\_data))}
+\FunctionTok{print}\NormalTok{(missing\_values)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                         Gender                            Age 
+##                              0                              0 
+##                         Height                         Weight 
+##                              0                              0 
+## family_history_with_overweight                           FAVC 
+##                              0                              0 
+##                           FCVC                            NCP 
+##                              0                              0 
+##                           CAEC                          SMOKE 
+##                              0                              0 
+##                           CH2O                            SCC 
+##                              0                              0 
+##                            FAF                            TUE 
+##                              0                              0 
+##                           CALC                         MTRANS 
+##                              0                              0 
+##                     NObeyesdad 
+##                              0
+\end{verbatim}
+
+\paragraph{Observation -}\label{observation---1}
+
+The dataset has no missing values in any of the coloumns and we have
+displayed the same.
+
+\subsection{Checking for any outliers}\label{checking-for-any-outliers}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boxplot}\NormalTok{(obesity\_data[, }\FunctionTok{sapply}\NormalTok{(obesity\_data, is.numeric)], }\AttributeTok{las =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{StatPro_files/figure-latex/unnamed-chunk-4-1.pdf}
+\#\#\#\# Observation -
+
+We can see from the boxplot that we had a broad range of observations
+across a range of variables. The `Weight' box stood out because it is
+much taller than the others, representing significant variability in
+people's weights. The figure for `Age' did have a lot of dots positioned
+over the box, meaning there were some older people together with the
+group, but generally, we can assume that there were many younger people
+predominating.We saw that the `Height' box was fairly small,
+representing that the height among most individuals was not markedly
+different. For the rest of the measures for FCVC, NCP, CH2O, FAF, and
+TUE, we saw that they were caught on the bottom half of the chart
+implying that they did not vary much or were measured on a smaller
+scale.So, it appears weight is the more commonly varying of
+characteristics in this dataset, while the rest seemed more the same
+across the group.
+
+\subsection{Outlier Capping}\label{outlier-capping}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cap\_outliers }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(x) \{}
+\NormalTok{  q1 }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(x, }\FloatTok{0.25}\NormalTok{)}
+\NormalTok{  q3 }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(x, }\FloatTok{0.75}\NormalTok{)}
+  \CommentTok{\# Calculate IQR}
+\NormalTok{  iqr }\OtherTok{=}\NormalTok{ q3 }\SpecialCharTok{{-}}\NormalTok{ q1}
+\NormalTok{  lower\_bound }\OtherTok{=}\NormalTok{ q1 }\SpecialCharTok{{-}} \FloatTok{1.5}\SpecialCharTok{*}\NormalTok{iqr}
+\NormalTok{  upper\_bound }\OtherTok{=}\NormalTok{ q3 }\SpecialCharTok{+} \FloatTok{1.5}\SpecialCharTok{*}\NormalTok{iqr}
+\NormalTok{  x[x }\SpecialCharTok{\textless{}}\NormalTok{ lower\_bound] }\OtherTok{=}\NormalTok{ lower\_bound}
+\NormalTok{  x[x }\SpecialCharTok{\textgreater{}}\NormalTok{ upper\_bound] }\OtherTok{=}\NormalTok{ upper\_bound}
+  \FunctionTok{return}\NormalTok{(x)}
+\NormalTok{\}}
+\CommentTok{\# Clean up the dataset by capping outliers in numeric columns}
+\NormalTok{obesity\_data\_clean }\OtherTok{=}\NormalTok{ obesity\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric), }
+                \SpecialCharTok{\textasciitilde{}}\FunctionTok{cap\_outliers}\NormalTok{(.)))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Checking if the boxplot still has any
+outliar}\label{checking-if-the-boxplot-still-has-any-outliar}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boxplot}\NormalTok{(obesity\_data\_clean[, }\FunctionTok{sapply}\NormalTok{(obesity\_data\_clean, is.numeric)], }\AttributeTok{las =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{StatPro_files/figure-latex/unnamed-chunk-6-1.pdf}
+\#\#\#\# Observation - We can see from the boxplot that the weight is
+the main highlight here - it has an enormous box compared to the other
+features, ranging from almost 40 to above 100, with some data points
+beyond 150. Age is the next largest box but it is relatively small,
+hovering between 20 - 30. The flatness of the remaining measures
+(Height, FCVC, NCP, CH2O, FAF, TUE) is intriguing - they all amount to
+roughly a line at the bottom of the chart. This indicates that weight
+has considerable variability amongst others while other measures, such
+as weekly water intake (CH2O), and daily exercise (FAF), remain
+relatively constant among individuals. This indicates that weight is the
+true point of variability of all persons in this data set.
+
+\subsection{Feature Engineering}\label{feature-engineering}
+
+\subsubsection{1. Data Standardization}\label{data-standardization}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{number\_cols }\OtherTok{=}\NormalTok{ obesity\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric))}
+\NormalTok{scaled\_data }\OtherTok{=} \FunctionTok{scale}\NormalTok{(number\_cols) }
+\NormalTok{scaled\_data }\OtherTok{=} \FunctionTok{as.data.frame}\NormalTok{(scaled\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2. Dataset Integration (combining categorical variables
+is
+needed)}\label{dataset-integration-combining-categorical-variables-is-needed}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{final\_data }\OtherTok{\textless{}{-}} \FunctionTok{bind\_cols}\NormalTok{(}
+\NormalTok{  scaled\_data,}
+\NormalTok{  obesity\_data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.factor)))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{3. Exploratory Data Analysis (EDA) on Scaled
+Data}\label{exploratory-data-analysis-eda-on-scaled-data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cor\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(scaled\_data)  }
+\NormalTok{corrplot}\SpecialCharTok{::}\FunctionTok{corrplot}\NormalTok{(cor\_matrix, }\AttributeTok{method =} \StringTok{"circle"}\NormalTok{, }\AttributeTok{tl.cex =} \FloatTok{0.7}\NormalTok{)  }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{StatPro_files/figure-latex/unnamed-chunk-9-1.pdf}
+\#\#\#\# Observation - This correlation matrix illustrates the
+relationships among our health variables. The dark blue circles along
+the diagonal show perfect self-correlations. We can observe that Height
+and Weight show a moderate positive relationship (medium blue circle),
+which is correct as taller people would generally weigh more. Age shows
+an overall negative association with TUE (time of exercise), possibly
+indicating that younger participants exercise more regularly. Height
+also shows weak positive associations with FAF (physical activity) and
+CH2O (water consumption). Weight shows slight positive associations with
+FCVC and CH2O, suggesting there is some form of relationship between
+Weight and eating/drinking behaviors. Overall, this figure allows us to
+understand the associations between the many factors explained above.
+
+\subsubsection{4. Data Quality Checks}\label{data-quality-checks}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(cor\_matrix))  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(scaled\_data)  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    2111 obs. of  8 variables:
+##  $ Age   : num  -0.522 -0.522 -0.207 0.423 -0.364 ...
+##  $ Height: num  -0.875 -1.947 1.054 1.054 0.839 ...
+##  $ Weight: num  -0.8624 -1.1678 -0.366 0.0158 0.1227 ...
+##  $ FCVC  : num  -0.785 1.088 -0.785 1.088 -0.785 ...
+##  $ NCP   : num  0.404 0.404 0.404 0.404 -2.167 ...
+##  $ CH2O  : num  -0.0131 1.6184 -0.0131 -0.0131 -0.0131 ...
+##  $ FAF   : num  -1.19 2.34 1.16 1.16 -1.19 ...
+##  $ TUE   : num  0.562 -1.08 0.562 -1.08 -1.08 ...
+\end{verbatim}
+
+\paragraph{Observsation -}\label{observsation--}
+
+The scaled dataset contains 2,111 observations containing 8 standardized
+numeric variables (mean=0, sd=1). The first few rows of data demonstrate
+several observations above and below average. For Age, there are values
+in the 30s and 40s, while values in the teens and 20s -in this case -
+would be below average. For example, -0.522 indicates a younger
+participant. The Height variable demonstrates the widest range, with
+some people quite short at -1.947 and some people quite tall at 1.054
+according to the mean. Weight is somewhat similar, with values from
+-1.1678 to 0.1227, for example. Again, the lifestyle driving variables
+are standardized, meaning we see more variety in those observations as
+well. Some individuals exercise (FAF) more than the average, while
+others appear to drink (CH2O) more water than the average.
+
+\subsubsection{5. Further Visualization}\label{further-visualization}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Visualization 1: Hierarchical clustering with coefficients.,}
+
+\NormalTok{corrplot}\SpecialCharTok{::}\FunctionTok{corrplot}\NormalTok{(}
+\NormalTok{  cor\_matrix, }
+  \AttributeTok{method =} \StringTok{"circle"}\NormalTok{,}
+  \AttributeTok{type =} \StringTok{"upper"}\NormalTok{,         }
+  \AttributeTok{order =} \StringTok{"hclust"}\NormalTok{,       }
+  \AttributeTok{tl.cex =} \FloatTok{0.7}\NormalTok{,           }
+  \AttributeTok{tl.col =} \StringTok{"black"}\NormalTok{,       }
+  \AttributeTok{addCoef.col =} \StringTok{"black"}  
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{StatPro_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Visualization 2: Color gradient version.,}
+
+\NormalTok{corrplot}\SpecialCharTok{::}\FunctionTok{corrplot}\NormalTok{(}
+\NormalTok{  cor\_matrix,}
+  \AttributeTok{method =} \StringTok{"color"}\NormalTok{,        }
+  \AttributeTok{type =} \StringTok{"upper"}\NormalTok{,         }
+  \AttributeTok{order =} \StringTok{"hclust"}\NormalTok{,       }
+  \AttributeTok{tl.cex =} \FloatTok{0.8}\NormalTok{,            }
+  \AttributeTok{addCoef.col =} \StringTok{"white"}\NormalTok{,   }
+  \AttributeTok{number.cex =} \FloatTok{0.7}\NormalTok{,        }
+  \AttributeTok{col =} \FunctionTok{colorRampPalette}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"white"}\NormalTok{, }\StringTok{"red"}\NormalTok{))(}\DecValTok{100}\NormalTok{)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{StatPro_files/figure-latex/unnamed-chunk-11-2.pdf}
+\#\#\#\# Obvervation -
+
+From the plot, the strongest correlation found:
+
+Height \& Weight: r = 0.46 (moderate-strong positive)
+
+This is expected biologically as taller people tend to weigh more.
+
+Moderate Correlations (0.2 ≤ \textbar r\textbar{} ≤ 0.3): FAF \& Height:
+0.29 (physical activity vs height)
+
+CH2O \& Height: 0.21 (water consumption vs height)
+
+CH2O \& Weight: 0.20
+
+Weight \& Age: 0.20
+
+Weight \& FCVC: 0.22
+
+Weak/No Notable Correlations (\textbar r\textbar{} \textless{} 0.2):
+Most other variable pairs show negligible relationships
+
+TUE shows virtually no correlation with other variables
+
+\subsubsection{6. Multicollinearity
+Assessment}\label{multicollinearity-assessment}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vif\_values }\OtherTok{\textless{}{-}} \FunctionTok{vif}\NormalTok{(}\FunctionTok{lm}\NormalTok{(Weight }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }
+                     \AttributeTok{data =}\NormalTok{ scaled\_data))}
+\FunctionTok{print}\NormalTok{(vif\_values)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      Age   Height     FCVC      NCP     CH2O      FAF      TUE 
+## 1.119261 1.191525 1.021649 1.071536 1.067833 1.135602 1.110450
+\end{verbatim}
+
+\paragraph{Observation -}\label{observation---2}
+
+VIF \textgreater{} 5 suggests problematic multicollinearity but there is
+none as it can be seen above.
+
+VIF scores were all \textless{} 3, confirming no problematic
+multicollinearity.
+
+\subsubsection{7. Data Standardization
+Verification}\label{data-standardization-verification}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(scaled\_data)  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       Age              Height             Weight             FCVC         
+##  Min.   :-1.6251   Min.   :-2.69737   Min.   :-1.8169   Min.   :-2.65775  
+##  1st Qu.:-0.6879   1st Qu.:-0.76821   1st Qu.:-0.8061   1st Qu.:-0.78483  
+##  Median :-0.2418   Median :-0.01263   Median :-0.1369   Median :-0.06282  
+##  Mean   : 0.0000   Mean   : 0.00000   Mean   : 0.0000   Mean   : 0.00000  
+##  3rd Qu.: 0.2659   3rd Qu.: 0.71579   3rd Qu.: 0.7959   3rd Qu.: 1.08808  
+##  Max.   : 5.7812   Max.   : 2.98294   Max.   : 3.2994   Max.   : 1.08808  
+##       NCP                CH2O               FAF                TUE         
+##  Min.   :-2.16651   Min.   :-1.64452   Min.   :-1.18776   Min.   :-1.0804  
+##  1st Qu.:-0.03456   1st Qu.:-0.69043   1st Qu.:-1.04138   1st Qu.:-1.0804  
+##  Median : 0.40406   Median :-0.01307   Median :-0.01211   Median :-0.0534  
+##  Mean   : 0.00000   Mean   : 0.00000   Mean   : 0.00000   Mean   : 0.0000  
+##  3rd Qu.: 0.40406   3rd Qu.: 0.76581   3rd Qu.: 0.77167   3rd Qu.: 0.5619  
+##  Max.   : 1.68934   Max.   : 1.61838   Max.   : 2.33920   Max.   : 2.2041
+\end{verbatim}
+
+\paragraph{Observation -}\label{observation---3}
+
+We verified that standardization worked or not as the mean should be
+approximately 0 and standard deviation around 1 which can be seen in the
+summary above.
+
+\subsubsection{8. Distribution
+Visualization}\label{distribution-visualization}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{scaled\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{everything}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(value)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{20}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{name, }\AttributeTok{scales =} \StringTok{"free"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Distribution of Standardized Variables"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Standardized Values"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Frequency"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{StatPro_files/figure-latex/unnamed-chunk-14-1.pdf}
+\#\#\#\# Observation -
+
+Here, we have plotted the graphs of each component.
+
+\subsection{Principal Component Analysis
+(PCA)}\label{principal-component-analysis-pca}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
+\NormalTok{pca\_result }\OtherTok{\textless{}{-}} \FunctionTok{prcomp}\NormalTok{(scaled\_data, }\AttributeTok{scale =} \ConstantTok{FALSE}\NormalTok{)  }
+\end{Highlighting}
+\end{Shaded}
+
+\#\#Variance Explained
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(pca\_result)       }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Importance of components:
+##                           PC1    PC2    PC3    PC4    PC5     PC6     PC7
+## Standard deviation     1.3461 1.2217 1.0058 0.9751 0.9699 0.87965 0.80967
+## Proportion of Variance 0.2265 0.1866 0.1265 0.1189 0.1176 0.09672 0.08195
+## Cumulative Proportion  0.2265 0.4131 0.5395 0.6584 0.7760 0.87268 0.95463
+##                            PC8
+## Standard deviation     0.60246
+## Proportion of Variance 0.04537
+## Cumulative Proportion  1.00000
+\end{verbatim}
+
+\paragraph{Observation -}\label{observation---4}
+
+The table above summarizes the significance of the primary components
+(PC) in clarifying the variability of our dataset. PC1 explains close to
+23\% of the variance and PC2 accounts for nearly 19\%, whereas the first
+two PCs can be used to explain over 41\% of the total variance, which is
+a strong justification for using these PCs to help summarize the data.
+Up to PC5 can explain just under 78\% of variance, and we require all
+eight PCs to adequately describe the dataset. The standard deviations of
+the principal components are decreasing, indicating that each subsequent
+component is contributing less and less to the explanation of
+variability.
+
+\#\#Scree Plot Visualization
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fviz\_eig}\NormalTok{(pca\_result, }
+         \AttributeTok{addlabels =} \ConstantTok{TRUE}\NormalTok{,}
+         \AttributeTok{main =} \StringTok{"Scree Plot: PCA Components Variance"}\NormalTok{,}
+         \AttributeTok{ylab =} \StringTok{"Percentage of Explained Variance"}\NormalTok{,}
+         \AttributeTok{xlab =} \StringTok{"Principal Components"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{StatPro_files/figure-latex/unnamed-chunk-17-1.pdf}
+\#\#\#\# Observation -
+
+The scree plot indicates the amount of variance explained by each
+principal component (PC) in the dataset. Among the principal components,
+PC1 is the most informative, explaining 22.6\% of the variance, while
+PC2 accounts for 18.7\%. After PC2, variance explained by the principal
+components, specified here as ``PC3'', ``PC4'', and ``PC5'', steadily
+declines as they explain 12-11\% of the variance. The same can be said
+for the smaller contributions of variance explained by the next group of
+PCs where PC8 only accounted for 4.5\%. The rapid decline to meaningful
+variance explained after a few principal components provided evidence
+these principal components held most of the information within the
+dataset.
+
+\subsection{Variable Contributions}\label{variable-contributions}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fviz\_pca\_var}\NormalTok{(pca\_result,}
+             \AttributeTok{col.var =} \StringTok{"contrib"}\NormalTok{,}
+             \AttributeTok{gradient.cols =} \FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"yellow"}\NormalTok{, }\StringTok{"red"}\NormalTok{),}
+             \AttributeTok{repel =} \ConstantTok{TRUE}\NormalTok{,}
+             \AttributeTok{title =} \StringTok{"Variable Contributions to Principal Components"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{StatPro_files/figure-latex/unnamed-chunk-18-1.pdf}
+\#\#\#\# Observation -
+
+This biplot represents contributions of each variable to the first two
+principal components, Dim1 and Dim2, respectively explaining 22.6\% and
+18.7\% of the variance in the data. Weight and Height are very closely
+aligned with Dim1, i.e., they contribute a lot to that principal
+component of variability. Age and TUE are positioned along Dim2,
+implying that they are relatively more important to that second
+principal dimension. VariablessuchasFCVC, NCP, CH2O, and FAF contribute
+less overall, but each shows a clear directional component. Colours
+assigned to each variable represent the strength of influence or
+contribution, such that red represents higher contributing variable.
+These types of variable visualization tool help us understand how
+various variables contribute influence the main dimensions of
+variability present in the dataset.
+
+\subsection{Cluster Analysis}\label{cluster-analysis}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)  }
+\NormalTok{pca\_scores }\OtherTok{\textless{}{-}}\NormalTok{ pca\_result}\SpecialCharTok{$}\NormalTok{x[,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{]  }
+
+\FunctionTok{fviz\_nbclust}\NormalTok{(pca\_scores, kmeans, }\AttributeTok{method =} \StringTok{"wss"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{3}\NormalTok{, }\AttributeTok{linetype =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Elbow Method: Optimal Number of Clusters"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Number of Clusters (k)"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Total Within{-}Cluster Sum of Squares"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{StatPro_files/figure-latex/unnamed-chunk-19-1.pdf}
+\#\#\#\# Observation -
+
+Interpretation of Your Elbow Plot:-
+
+X-axis: Number of clusters (k) Y-axis: Total within-cluster sum of
+squares (WSS) - measures compactness of clusters Key Pattern: WSS
+decreases sharply until k=3
+
+The curve flattens noticeably after k=3 that is the elbow point. To
+conclude., Optimal k = 3 clusters, the vertical line at x=3 is correctly
+placed. This shows that the obesity data naturally groups into 3
+distinct profiles.
+
+\subsection{K-means Clustering
+Implementation}\label{k-means-clustering-implementation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{selected\_vars }\OtherTok{\textless{}{-}}\NormalTok{ obesity\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(Age, Weight, Height, FAF, FCVC, TUE)}
+\NormalTok{scaled\_selected }\OtherTok{\textless{}{-}} \FunctionTok{scale}\NormalTok{(selected\_vars)}
+\NormalTok{pca\_result }\OtherTok{\textless{}{-}} \FunctionTok{prcomp}\NormalTok{(scaled\_selected)}
+\NormalTok{pca\_scores }\OtherTok{\textless{}{-}}\NormalTok{ pca\_result}\SpecialCharTok{$}\NormalTok{x[,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]  }
+
+\NormalTok{kmeans\_result }\OtherTok{\textless{}{-}} \FunctionTok{kmeans}\NormalTok{(pca\_scores, }\AttributeTok{centers =} \DecValTok{3}\NormalTok{, }\AttributeTok{nstart =} \DecValTok{25}\NormalTok{)}
+\NormalTok{obesity\_data}\SpecialCharTok{$}\NormalTok{Cluster }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(kmeans\_result}\SpecialCharTok{$}\NormalTok{cluster)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Cluster Visualization}\label{cluster-visualization}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{variance\_explained }\OtherTok{\textless{}{-}}\NormalTok{ pca\_result}\SpecialCharTok{$}\NormalTok{sdev}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(pca\_result}\SpecialCharTok{$}\NormalTok{sdev}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\FunctionTok{fviz\_cluster}\NormalTok{(kmeans\_result, }\AttributeTok{data =}\NormalTok{ pca\_scores,}
+             \AttributeTok{palette =} \StringTok{"jco"}\NormalTok{, }
+             \AttributeTok{ggtheme =} \FunctionTok{theme\_minimal}\NormalTok{(),}
+             \AttributeTok{main =} \StringTok{"Cluster Assignment in PCA Space"}\NormalTok{,}
+             \AttributeTok{xlab =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"PC1 ("}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\DecValTok{100}\SpecialCharTok{*}\NormalTok{variance\_explained[}\DecValTok{1}\NormalTok{],}\DecValTok{1}\NormalTok{),}\StringTok{"\%)"}\NormalTok{),}
+             \AttributeTok{ylab =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"PC2 ("}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\DecValTok{100}\SpecialCharTok{*}\NormalTok{variance\_explained[}\DecValTok{2}\NormalTok{],}\DecValTok{1}\NormalTok{),}\StringTok{"\%)"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{StatPro_files/figure-latex/unnamed-chunk-21-1.pdf}
+\#\#\#\# Observation -
+
+\emph{Cluster Separation:} The plot indicates that the K-means
+clustering algorithm has successfully divided the data into three
+distinct visual clusters in the PC1-PC2 space. This implies that there
+are meaningful differences among groups of individuals based on the
+chosen clinical variables. \emph{PC1 and PC2:} The axes are labeled as
+``PC1'' and ``PC2''; they refer to the first two principal components.
+These components are derived from linear combinations of the original
+variables (Age, Weight, Height, FAF, FCVC, TUE). \emph{PC1:} PC1, as the
+horizontal axis probably represents the most important source of
+variation in the data. The direction of PC1 shows the contributions of
+the original variables to the overall variation. For example, if Weight
+and Height have high positive loadings on PC1, the points that are the
+furthest right on the x-axis represent individuals with higher values of
+Weight and Height. \emph{PC2:} The vertical axis (PC2) represents the
+next most important source of variation, which represents variation
+orthogonal (independent) to PC1.
+
+\emph{Cluster Features:}
+
+\emph{Cluster 1 (Blue):} The blue cluster has a lower left quadrant
+position in the plot. This possibly indicates that people in the blue
+cluster have lower values than the other two clusters in PC1 and PC2.
+\emph{Cluster 2 (Yellow):} The yellow cluster has a more upper center
+position in the plot. This likely indicates that individuals in the
+yellow cluster have higher value in PC2 and an intermediate value in
+PC1. \emph{Cluster 3 (Gray):} The gray cluster has a lower right
+quadrant position in the plot. This possibly indicates that individuals
+in the gray cluster have higher values in PC1 and lower values in PC2.
+
+\subsection{PCA Results Examination}\label{pca-results-examination}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"PC1 explains"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\DecValTok{100}\SpecialCharTok{*}\NormalTok{variance\_explained[}\DecValTok{1}\NormalTok{], }\DecValTok{1}\NormalTok{), }\StringTok{"\% of variance}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## PC1 explains 26.3 % of variance
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"PC2 explains"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\DecValTok{100}\SpecialCharTok{*}\NormalTok{variance\_explained[}\DecValTok{2}\NormalTok{], }\DecValTok{1}\NormalTok{), }\StringTok{"\% of variance"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## PC2 explains 24.2 % of variance
+\end{verbatim}
+
+\paragraph{Observation -}\label{observation---5}
+
+We can see that PC1 explained 26.3\% and PC2 explained 24.2\%.
+
+\subsubsection{VARIABLE CONTRIBUTIONS}\label{variable-contributions-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fviz\_pca\_var}\NormalTok{(pca\_result,}
+             \AttributeTok{col.var =} \StringTok{"contrib"}\NormalTok{,}
+             \AttributeTok{gradient.cols =} \FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"yellow"}\NormalTok{, }\StringTok{"red"}\NormalTok{),}
+             \AttributeTok{repel =} \ConstantTok{TRUE}\NormalTok{,}
+             \AttributeTok{title =} \StringTok{"Variable Contributions to Principal Components"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{StatPro_files/figure-latex/unnamed-chunk-23-1.pdf}
+\#\#\#\# Observation -
+
+\emph{Weight and Height:}The vectors for Weight and Height are long and
+point in the same direction, indicating that they share a strong
+positive correlation with each other and with PC1.They are also red,
+showing that they contribute significantly to the principal components,
+particularly PC1. \emph{FAF:}The vector for FAF is also relatively long
+and points in the same direction as Weight and Height, suggesting that
+they share a positive correlation with them and PC1. Again, it is red
+meaning that FAF also has a significant contribution to the principal
+components. \emph{FCVC:}The vector for FCVC is shorter than the Weight,
+Height and FAF vectors and points in a different direction, suggesting
+that it correlates less with Weight, Height and FAF. The FCVC vector is
+also yellow, suggesting a moderate contribution. \emph{Age:}The vector
+for Age is also relatively short and points in a different direction
+than the Weight, Height, and FAF vectors, suggesting that Age is less
+correlated with Weight, Height and FAF. Like FCVC, Age is also yellow
+suggesting that Age has a moderate contribution. \emph{TUE:}The vector
+for TUE is more long than the other variables, but it points in the
+opposite direction of Weight, Height and FAF suggesting that TUE is
+negatively correlated with Weight, Height and FAF and PC1. TUE is also
+yellow signifying a moderate contribution. \emph{PC1:} The first
+principal component (Dim1) has the greatest weight from Weight, Height,
+and FAF. Therefore, individuals with greater values for Weight or Height
+or a greater FAF will have higher values for PC1. \emph{PC2:} The second
+principal component (Dim2) is not clearly driven by one particular
+variable but captures variation that is orthogonal to PC1.
+
+\#\#Cluster Validation
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{silhouette\_score }\OtherTok{\textless{}{-}} \FunctionTok{silhouette}\NormalTok{(kmeans\_result}\SpecialCharTok{$}\NormalTok{cluster, }\FunctionTok{dist}\NormalTok{(pca\_scores))}
+\FunctionTok{fviz\_silhouette}\NormalTok{(silhouette\_score) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Cluster Quality Assessment"}\NormalTok{,}
+       \AttributeTok{subtitle =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Average silhouette width:"}\NormalTok{, }
+                       \FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(silhouette\_score[,}\DecValTok{3}\NormalTok{]), }\DecValTok{2}\NormalTok{)),}
+       \AttributeTok{x =} \StringTok{"Cluster"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   cluster size ave.sil.width
+## 1       1  687          0.43
+## 2       2  613          0.38
+## 3       3  811          0.35
+\end{verbatim}
+
+\includegraphics{StatPro_files/figure-latex/unnamed-chunk-24-1.pdf}
+\#\#\#\# Observation -
+
+This silhouette plot assesses clustering quality across three clusters
+(red, green, blue). Overall, the average silhouette width is 0.38, which
+indicates a moderate quality of clustering. Cluster 1 (in red) has the
+highest silhouette widths overall, suggesting the cluster members are
+very well separated from the other clusters. Clusters 2 and 3 (green and
+blue, respectively), have lower silhouette widths overall, indicating
+the member points have weaker separation or overlap with the other
+clusters; in fact, some of the points in both Clusters 2 and 3 have
+silhouette widths close to zero. The dashed red line exhibits the
+average silhouette width across all clusters, and provides context for
+the visual assessment of how each cluster compares to the quality of
+clustering in general.
+
+\end{document}

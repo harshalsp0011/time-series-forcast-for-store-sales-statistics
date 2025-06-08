@@ -1,0 +1,392 @@
+---
+title: "Obesity Data Analysis Project1"
+output: html_document
+date: "2025-03-27"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Preparation and Cleaning
+
+
+```{r cars}
+library(tidyverse)  # Data manipulation
+library(cluster)    # Clustering (k-means, PAM)
+library(factoextra) # Visualization for clustering
+library(corrplot)   # Correlation matrix visualization
+library(car)
+library(ggplot2)
+library(factoextra)
+```
+
+
+
+```{r }
+# LOAD AND INSPECT RAW DATA
+obesity_data <- read.csv("obesity_data.csv")  
+
+# Verify first 6 rows
+head(obesity_data)
+```
+
+# BASIC DATA SUMMARY
+```{r }
+summary(obesity_data) # Summary statistics
+str(obesity_data)  # Check variable types
+```
+```{r}
+# 1.1 Check total missing values per column
+missing_values <- colSums(is.na(obesity_data))
+print(missing_values)
+
+```
+```{r}
+# 1. Check for outliers in numeric variables
+boxplot(obesity_data[, sapply(obesity_data, is.numeric)], las = 2)
+```
+##write what we did 
+```{r}
+# Function to cap outliers at 1.5*IQR 
+# OUTLIER TREATMENT FUNCTION
+cap_outliers <- function(x) {
+  q1 <- quantile(x, 0.25)
+  q3 <- quantile(x, 0.75)
+  iqr <- q3 - q1
+  x[x < (q1 - 1.5*iqr)] <- q1 - 1.5*iqr  # Cap low outliers
+  x[x > (q3 + 1.5*iqr)] <- q3 + 1.5*iqr  # Cap high outliers
+  return(x)
+}
+
+# Apply to numeric columns # APPLY OUTLIER CAPPING
+obesity_data_clean <- obesity_data %>%
+  mutate(across(where(is.numeric), cap_outliers))
+
+
+```
+
+
+
+```{r}
+# Re-check with box plot for any outliar 
+boxplot(obesity_data_clean[, sapply(obesity_data_clean, is.numeric)], las = 2)
+```
+
+
+## Feature Engineering
+
+### 1. Data Standardization
+```{r}
+
+# Select numeric columns and standardize (mean=0, sd=1)
+scaled_data <- obesity_data %>% 
+  select(where(is.numeric)) %>% 
+  scale() %>% 
+  as.data.frame()
+
+
+```
+
+## Dataset Integration
+```{r}
+
+# Combine with categorical variables (if needed)
+final_data <- bind_cols(
+  scaled_data,
+  obesity_data %>% select(where(is.factor))
+)
+```
+
+## Exploratory Data Analysis (EDA) on Scaled Data
+```{r}
+#A. Correlation Matrix
+cor_matrix <- cor(scaled_data)  
+corrplot::corrplot(cor_matrix, method = "circle", tl.cex = 0.7)  
+```
+##Data Quality Checks
+```{r}
+sum(is.na(cor_matrix))  # Should return 0
+str(scaled_data)  # All columns should be "num"
+```
+
+```{r}
+
+#Update Visualizations for better represttation to check redundancy
+# Option 1: Hierarchical clustering with coefficients
+corrplot::corrplot(
+  cor_matrix, 
+  method = "circle",
+  type = "upper",         # Show only upper triangle
+  order = "hclust",       # Cluster variables by correlation
+  tl.cex = 0.7,           # Smaller text labels
+  tl.col = "black",       # Label color
+  addCoef.col = "black"   # Add correlation coefficients
+)
+
+
+## Option 2: Color gradient version
+
+
+corrplot::corrplot(
+  cor_matrix,
+  method = "color",        # Color gradient
+  type = "upper",          # Cleaner display
+  order = "hclust",        # Group correlated vars
+  tl.cex = 0.8,            # Slightly larger labels
+  addCoef.col = "white",   # White coefficients
+  number.cex = 0.7,        # Coefficient size
+  col = colorRampPalette(c("blue", "white", "red"))(100)
+)
+
+
+```
+
+
+Key Observations from Correlation Analysis
+Strongest Correlation Found:
+
+Height & Weight: r = 0.46 (moderate-strong positive)
+
+This is expected biologically (taller people tend to weigh more)
+
+Moderate Correlations (0.2 ≤ |r| ≤ 0.3):
+
+FAF & Height: 0.29 (physical activity vs height)
+
+CH2O & Height: 0.21 (water consumption vs height)
+
+CH2O & Weight: 0.20
+
+Weight & Age: 0.20
+
+Weight & FCVC: 0.22 (weight vs vegetable consumption)
+
+Weak/No Notable Correlations (|r| < 0.2):
+
+Most other variable pairs show negligible relationships
+
+TUE (tech use) shows virtually no correlation with other variables
+
+
+
+### Multicollinearity Assessment
+```{r}
+#Multicollinearity Check:
+
+#Calculate VIF (Variance Inflation Factor) for regression contexts:
+#VIF > 5 suggests problematic multicollinearity BUT WE DONT HAVE ANY 
+#VIF scores were all < 3, confirming no problematic multicollinearity."
+
+vif_values <- vif(lm(Weight ~ ., data = scaled_data))
+print(vif_values)
+```
+
+
+## Data Standardization Verification
+Verify standardization worked (mean ≈ 0, sd ≈ 1):
+ Means should be ~0, SDs ~1  
+
+```{r}
+summary(scaled_data)  
+```
+B. Distribution Plots
+Check normality of standardized data:
+
+## Distribution Visualization
+```{r}
+
+
+# PLOT STANDARDIZED DISTRIBUTIONS
+scaled_data %>% 
+  pivot_longer(everything()) %>% 
+  ggplot(aes(value)) + 
+  geom_histogram(bins = 20) + 
+  facet_wrap(~name, scales = "free") +
+  labs(title = "Distribution of Standardized Variables",
+       x = "Standardized Values",
+       y = "Frequency")
+```
+
+
+
+
+## Principal Component Analysis (PCA)
+```{r}
+
+# 1. PCA Implementation
+set.seed(123)
+pca_result <- prcomp(scaled_data, scale = FALSE)  
+
+
+```
+
+##Variance Explained
+```{r}
+# Key outputs:
+summary(pca_result)       # Variance explained
+
+```
+
+##Scree Plot Visualization
+```{r}
+# VISUALIZE VARIANCE DISTRIBUTION
+fviz_eig(pca_result, 
+         addlabels = TRUE,
+         main = "Scree Plot: PCA Components Variance",
+         ylab = "Percentage of Explained Variance",
+         xlab = "Principal Components")
+
+```
+## Variable Contributions
+```{r}
+# PLOT VARIABLE CONTRIBUTIONS
+fviz_pca_var(pca_result,
+             col.var = "contrib",
+             gradient.cols = c("blue", "yellow", "red"),
+             repel = TRUE,
+             title = "Variable Contributions to Principal Components") +
+  theme_minimal()
+```
+
+## Cluster Analysis
+```{r}
+
+# ELBOW METHOD FOR K SELECTION
+set.seed(123)  # Reproducibility
+pca_scores <- pca_result$x[,1:3]  # Use top 3 PCs
+
+fviz_nbclust(pca_scores, kmeans, method = "wss") +
+  geom_vline(xintercept = 3, linetype = 2) +
+  labs(title = "Elbow Method: Optimal Number of Clusters",
+       x = "Number of Clusters (k)",
+       y = "Total Within-Cluster Sum of Squares")
+```
+Interpretation of Your Elbow Plot
+X-axis: Number of clusters (k)
+
+Y-axis: Total within-cluster sum of squares (WSS) - measures compactness of clusters
+
+Key Pattern:
+
+WSS decreases sharply until k=3
+
+The curve flattens noticeably after k=3 (the "elbow" point)
+
+Conclusion:
+
+Optimal k = 3 clusters (your vertical line at x=3 is correctly placed)
+
+This suggests your obesity data naturally groups into 3 distinct profiles
+
+
+
+##K-means Clustering Implementation
+
+```{r}
+
+# 1. Select only clinically relevant numeric variables
+# CLINICAL VARIABLE SELECTION AND CLUSTERING
+selected_vars <- obesity_data %>% 
+  select(Age, Weight, Height, FAF, FCVC, TUE)
+
+# PCA on selected variables
+scaled_selected <- scale(selected_vars)
+pca_result <- prcomp(scaled_selected)
+pca_scores <- pca_result$x[,1:2]  # Top 2 PCs
+
+# Perform k-means (k=3)
+kmeans_result <- kmeans(pca_scores, centers = 3, nstart = 25)
+obesity_data$Cluster <- as.factor(kmeans_result$cluster)
+```
+
+##Cluster Visualization
+
+```{r}
+variance_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2)
+# VISUALIZE CLUSTERS IN PCA SPACE
+fviz_cluster(kmeans_result, data = pca_scores,
+             palette = "jco", 
+             ggtheme = theme_minimal(),
+             main = "Cluster Assignment in PCA Space",
+             xlab = paste0("PC1 (", round(100*variance_explained[1],1),"%)"),
+             ylab = paste0("PC2 (", round(100*variance_explained[2],1),"%)"))
+```
+
+
+Visualization Interpretation:
+
+Cluster Separation: The plot shows that the K-means algorithm has successfully partitioned the data into three visually distinct clusters in the PC1-PC2 space. This suggests that there are meaningful differences between the groups of individuals in terms of the selected clinical variables.
+PC1 and PC2: The axes are labeled "PC1" and "PC2", representing the first two principal components. These components are linear combinations of the original variables (Age, Weight, Height, FAF, FCVC, TUE).
+PC1: The horizontal axis (PC1) likely captures the most significant source of variation in the data. The direction of the axis indicates how the original variables contribute to this component. For example, if Weight and Height have high positive loadings on PC1, then points further to the right would represent individuals with higher values for these variables.
+PC2: The vertical axis (PC2) represents the second most significant source of variation. It captures variation that is orthogonal (independent) to PC1.
+Cluster Characteristics:
+Cluster 1 (Blue): The blue cluster is located in the lower left quadrant of the plot. This suggests that individuals in this cluster may have lower values on both PC1 and PC2 compared to the other clusters.
+Cluster 2 (Yellow): The yellow cluster is located in the upper center of the plot. This indicates that individuals in this cluster may have higher values on PC2 and intermediate values on PC1.
+Cluster 3 (Gray): The gray cluster is located in the lower right quadrant of the plot. This suggests that individuals in this cluster may have higher values on PC1 and lower values on PC2.
+
+
+
+##PCA Results Examination
+```{r}
+# Calculate variance explained
+
+cat("PC1 explains", round(100*variance_explained[1], 1), "% of variance\n")
+cat("PC2 explains", round(100*variance_explained[2], 1), "% of variance")
+```
+
+### VARIABLE CONTRIBUTIONS
+```{r}
+# VARIABLE CONTRIBUTIONS
+fviz_pca_var(pca_result,
+             col.var = "contrib",
+             gradient.cols = c("blue", "yellow", "red"),
+             repel = TRUE,
+             title = "Variable Contributions to Principal Components")
+```
+
+
+Interpretation of the Specific Plot:
+
+Weight and Height:
+The vectors for Weight and Height are long and point in the same direction, indicating they are strongly positively correlated with each other and with PC1.
+They are also red, indicating a high contribution to the principal components, particularly PC1.
+FAF:
+The vector for FAF is also relatively long and points in the same direction as Weight and Height, suggesting it is positively correlated with them and PC1.
+It is also red, indicating a high contribution to the principal components.
+FCVC:
+The vector for FCVC is shorter and points in a different direction, suggesting it is less correlated with Weight, Height, and FAF.
+It is yellow, indicating a moderate contribution.
+Age:
+The vector for Age is relatively short and points in a different direction, suggesting it is less correlated with Weight, Height, and FAF.
+It is yellow, indicating a moderate contribution.
+TUE:
+The vector for TUE is relatively long and points in the opposite direction of Weight, Height, and FAF, suggesting it is negatively correlated with them and PC1.
+It is yellow, indicating a moderate contribution.
+
+
+PC1: The first principal component (Dim1) is primarily driven by Weight, Height, and FAF. Individuals with higher values for these variables will have higher scores on PC1.
+PC2: The second principal component (Dim2) is less clearly driven by a single variable but captures variation that is orthogonal to PC1.
+
+
+##Cluster Validation
+
+```{r}
+# SILHOUETTE ANALYSIS
+silhouette_score <- silhouette(kmeans_result$cluster, dist(pca_scores))
+fviz_silhouette(silhouette_score) +
+  labs(title = "Cluster Quality Assessment",
+       subtitle = paste("Average silhouette width:", 
+                       round(mean(silhouette_score[,3]), 2)),
+       x = "Cluster")
+```
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+---
+title: "StatProject1"
+output: html_document
+date: "2025-03-27"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+```{r cars}
+library(tidyverse)  # Data manipulation
+library(cluster)    # Clustering (k-means, PAM)
+library(factoextra) # Visualization for clustering
+library(corrplot)   # Correlation matrix visualization
+```
+
+
+
+```{r }
+# Load data (adjust path if needed)
+obesity_data <- read.csv("obesity_data.csv")  
+
+# Initial inspection
+head(obesity_data)
+```
+
+
+```{r }
+summary(obesity_data)
+str(obesity_data)  # Check variable types
+```
+```{r}
+# 1.1 Check total missing values per column
+missing_values <- colSums(is.na(obesity_data))
+print(missing_values)
+```
+
+
+```{r}
+# 1.2 Visualize missing values (if any)
+library(visdat)
+vis_miss(obesity_data)  # Creates a heatmap of missing data
+```
+
